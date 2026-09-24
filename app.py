@@ -14,9 +14,9 @@ try:
     scaler = joblib.load('static/scaler.pkl')
     encoders = joblib.load('static/encoders.pkl')
     print("✅ ML Model loaded successfully!")
-except:
-    print("❌ ERROR: Run 'python ml_model.py' first to create model files!")
-    exit()
+except Exception as e:
+    print(f"❌ ML MODEL LOAD ERROR: {e}")
+    raise
 
 # Complete Career Roadmap Data
 
