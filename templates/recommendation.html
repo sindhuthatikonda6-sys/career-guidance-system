@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.predicted_career }} - Career Roadmap</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-trophy"></i> {{ profile.predicted_career }}</h1>
+            <div class="confidence-badge">{{ "%.1f"|format(profile.confidence) }}% Confidence</div>
+            <div class="nav-buttons">
+                <a href="/roadmap" class="btn-primary">📋 Learning Roadmap</a>
+                <a href="/" class="btn-secondary">🔄 New Assessment</a>
+            </div>
+        </header>
+
+        <!-- Skills Analysis -->
+        <div class="skills-section">
+            <h2><i class="fas fa-chart-bar"></i> Skills Analysis</h2>
+            <div class="skills-grid">
+                <div class="skill-card known">
+                    <h3><i class="fas fa-check-circle"></i> Known Skills</h3>
+                    <ul>
+                        {% for skill in profile.career_details["known_skills"] %}
+                        <li>{{ skill }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="skill-card learn">
+                    <h3><i class="fas fa-lightbulb"></i> Skills to Learn</h3>
+                    <ul>
+                        {% for skill in profile.career_details["skills_to_learn"] %}
+                        <li>{{ skill }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preferred Jobs -->
+        <div class="jobs-section">
+            <h2><i class="fas fa-briefcase"></i> Preferred Job Roles</h2>
+            <div class="job-tags">
+                {% for job in profile.career_details["preferred_jobs"] %}
+                <span class="job-tag">{{ job }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Probability Chart -->
+        <div class="chart-section">
+            <h2><i class="fas fa-chart-pie"></i> Alternative Careers</h2>
+            <div class="probabilities">
+                {% for career, prob in profile.probabilities.items() if prob > 0.05 %}
+                <div class="prob-item">
+                    <span>{{ career }}</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="--width-percent: {{ prob }}%"></div>
+                    </div>
+                    <span>{{ prob }}%</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

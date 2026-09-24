@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Guidance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <h1><i class="fas fa-rocket"></i> Career Guidance System</h1>
+            <p>AI-Powered Career Path for Engineering Students</p>
+            {% if student_data %}
+            <div class="session-notice">
+                <i class="fas fa-save"></i> Data saved! <a href="/clear">Clear All</a>
+            </div>
+            {% endif %}
+        </header>
+
+        <div class="form-container">
+            <form id="careerForm" action="/profile" method="POST">
+                <!-- STUDENT INFO -->
+                <div class="section-header info-header">
+                    <h3><i class="fas fa-user"></i> Personal Information</h3>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Name *</label>
+                        <input type="text" name="name" value="{{ student_data.name or '' }}" placeholder="Rahul Sharma" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Branch & Year *</label>
+                        <input type="text" name="branch" value="{{ student_data.branch or '' }}" placeholder="CSE - 3rd Year" required>
+                    </div>
+                </div>
+
+                <!-- ACADEMIC SCORES -->
+                <div class="section-header score-header">
+                    <h3><i class="fas fa-chart-line"></i> Academic Scores (0-100)</h3>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Mathematics</label>
+                        <input type="number" name="math_score" value="{{ student_data.math_score or 85 }}" min="0" max="100" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Programming</label>
+                        <input type="number" name="programming_score" value="{{ student_data.programming_score or 88 }}" min="0" max="100" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Projects</label>
+                        <input type="number" name="project_score" value="{{ student_data.project_score or 90 }}" min="0" max="100" required>
+                    </div>
+                </div>
+
+                <!-- SOFT SKILLS -->
+                <div class="section-header soft-header">
+                    <h3><i class="fas fa-handshake"></i> Soft Skills</h3>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Communication</label>
+                        <select name="communication" required>
+                            <option value="Poor">Poor</option>
+                            <option value="Average" {% if student_data.communication == 'Average' %}selected{% endif %}>Average</option>
+                            <option value="Good" {% if student_data.communication == 'Good' %}selected{% endif %}>Good</option>
+                            <option value="Excellent" {% if student_data.communication == 'Excellent' %}selected{% endif %}>Excellent</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Teamwork</label>
+                        <select name="teamwork" required>
+                            <option value="Poor">Poor</option>
+                            <option value="Average" {% if student_data.teamwork == 'Average' %}selected{% endif %}>Average</option>
+                            <option value="Good" {% if student_data.teamwork == 'Good' %}selected{% endif %}>Good</option>
+                            <option value="Excellent" {% if student_data.teamwork == 'Excellent' %}selected{% endif %}>Excellent</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Leadership</label>
+                        <select name="leadership" required>
+                            <option value="Poor">Poor</option>
+                            <option value="Average" {% if student_data.leadership == 'Average' %}selected{% endif %}>Average</option>
+                            <option value="Good" {% if student_data.leadership == 'Good' %}selected{% endif %}>Good</option>
+                            <option value="Excellent" {% if student_data.leadership == 'Excellent' %}selected{% endif %}>Excellent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- INTERESTS -->
+                <div class="section-header tech-header">
+                    <h3><i class="fas fa-heart"></i> Technical Interests</h3>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Machine Learning/AI</label>
+                        <select name="interest_ml" required>
+                            <option value="Low" {% if student_data.interest_ml == 'Low' %}selected{% endif %}>Low</option>
+                            <option value="Medium" {% if student_data.interest_ml == 'Medium' %}selected{% endif %}>Medium</option>
+                            <option value="High" {% if student_data.interest_ml == 'High' %}selected{% endif %}>High</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Web Development</label>
+                        <select name="interest_web" required>
+                            <option value="Low" {% if student_data.interest_web == 'Low' %}selected{% endif %}>Low</option>
+                            <option value="Medium" {% if student_data.interest_web == 'Medium' %}selected{% endif %}>Medium</option>
+                            <option value="High" {% if student_data.interest_web == 'High' %}selected{% endif %}>High</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Embedded Systems</label>
+                        <select name="interest_embedded" required>
+                            <option value="Low" {% if student_data.interest_embedded == 'Low' %}selected{% endif %}>Low</option>
+                            <option value="Medium" {% if student_data.interest_embedded == 'Medium' %}selected{% endif %}>Medium</option>
+                            <option value="High" {% if student_data.interest_embedded == 'High' %}selected{% endif %}>High</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Mobile Development</label>
+                        <select name="interest_mobile" required>
+                            <option value="Low" {% if student_data.interest_mobile == 'Low' %}selected{% endif %}>Low</option>
+                            <option value="Medium" {% if student_data.interest_mobile == 'Medium' %}selected{% endif %}>Medium</option>
+                            <option value="High" {% if student_data.interest_mobile == 'High' %}selected{% endif %}>High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-magic"></i> Generate My Career Recommendation
+                </button>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

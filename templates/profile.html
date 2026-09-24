@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-user-graduate"></i> Your Student Profile</h1>
+            <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Edit Details</a>
+        </header>
+
+        <!-- ✅ FORM WRAPPER - FIXED -->
+        <form action="/recommend" method="POST">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2>{{ student_data.name or 'Engineering Student' }}</h2>
+                    <p>{{ student_data.branch or 'CSE' }}</p>
+                </div>
+
+                <!-- ✅ HIDDEN FIELDS - Pass ALL data to ML -->
+                {% for key, value in student_data.items() %}
+                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                {% endfor %}
+
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-number">{{ student_data.math_score or 85 }}/100</span>
+                        <span>Math Score</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">{{ student_data.programming_score or 88 }}/100</span>
+                        <span>Programming</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">{{ student_data.project_score or 90 }}/100</span>
+                        <span>Projects</span>
+                    </div>
+                </div>
+
+                <div class="profile-interests">
+                    <h3><i class="fas fa-heart"></i> Interests</h3>
+                    <div class="interest-tags">
+                        <span class="tag high">{{ student_data.interest_ml or 'High' }} ML</span>
+                        <span class="tag med">{{ student_data.interest_web or 'Medium' }} Web</span>
+                        <span class="tag low">{{ student_data.interest_embedded or 'Low' }} Embedded</span>
+                        <span class="tag med">{{ student_data.interest_mobile or 'Medium' }} Mobile</span>
+                    </div>
+                </div>
+
+                <!-- ✅ FORM SUBMIT BUTTON -->
+                <button type="submit" class="profile-btn">
+                    <i class="fas fa-magic"></i> Generate Career Recommendation
+                </button>
+            </div>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

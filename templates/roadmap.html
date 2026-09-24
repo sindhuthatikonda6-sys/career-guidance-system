@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Roadmap</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-map-marked-alt"></i> Learning Path</h1>
+            <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Home</a>
+        </header>
+
+        {% if profile and profile.career_details %}
+        <div class="main-header">
+            <h1 class="career-title">{{ profile.predicted_career }}</h1>
+            <p><strong>Confidence Score:</strong> {{ profile.confidence }}%</p>
+        </div>
+
+        <div class="roadmap-timeline">
+            {% for step in profile.career_details.roadmap %}
+            <div class="roadmap-step">
+                <div class="step-header">
+                    <h4 class="topic">{{ step.topic }}</h4>
+                    <span class="duration"><i class="far fa-clock"></i> {{ step.duration }}</span>
+                </div>
+                <ul class="step-details">
+                    {% for detail in step.details %}
+                    <li><i class="fas fa-check-circle"></i> {{ detail }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="downloadProfile()" class="submit-btn" style="max-width: 300px; margin: 0 auto;">
+                <i class="fas fa-download"></i> Download Full Roadmap
+            </button>
+        </div>
+
+        <!-- Hidden input for script.js download functionality -->
+        <input type="hidden" name="name" value="{{ profile.name }}">
+
+        {% else %}
+        <div class="profile-card" style="text-align: center;">
+            <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #cbd5e0;"></i>
+            <h3>No Roadmap Generated</h3>
+            <p>Please complete your profile to get a recommendation.</p>
+            <a href="/" class="profile-btn">Go to Profile</a>
+        </div>
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
